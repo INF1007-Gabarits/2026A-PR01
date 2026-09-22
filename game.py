@@ -19,8 +19,12 @@ def apply_gravity():
     Applique la gravité au Doodle en augmentant progressivement sa vitesse verticale (vel_y).
     Met à jour la position verticale (y) du Doodle.
     """
+    doodle_dict["vel_y"] += GRAVITY
+    doodle_dict["y"] += doodle_dict["vel_y"]
     # TODO : Mettez à jour la vitesse verticale puis la position verticale
     # du Doodle à partir de GRAVITY.
+    # vel_y = 
+
 
     return
 
@@ -38,13 +42,25 @@ def move_doodle():
     # TODO : Gérez les déplacements gauche/droite et mettez à jour
     # simultanément la direction et l'image du Doodle.
 
+    if keys[pygame.K_LEFT]: 
+        doodle_dict.update({"direction": "left"})
+        doodle_dict.update({"image": doodle_left_img})
+        doodle_dict.update({"x": doodle_dict.get("x") - DOODLE_SPEED})
 
+    if keys[pygame.K_RIGHT]: 
+            doodle_dict.update({"direction": "right"})
+            doodle_dict.update({"image": doodle_right_img})
+            doodle_dict.update({"x": doodle_dict.get("x") + DOODLE_SPEED})
+        
 
     # TODO : Implémentez le Screen Wrap pour qu'une partie du Doodle puisse
     # sortir d'un côté avant de réapparaître de l'autre.
     # N'utilisez pas de dimensions numériques écrites directement.
 
-
+    if doodle_dict.get("x") > SCREEN_WIDTH - DOODLE_WIDTH // 2:
+        doodle_dict.update({"x": -DOODLE_WIDTH //2 })
+    elif (doodle_dict.get("x") < -DOODLE_WIDTH // 2):
+        doodle_dict.update({"x": SCREEN_WIDTH - DOODLE_WIDTH // 2})
 
     return
 
@@ -57,9 +73,16 @@ def move_platforms():
     Déplace horizontalement les plateformes mobiles ("blue").
     Fait rebondir les plateformes lorsqu'elles atteignent les bords de la fenêtre.
     """
+    for platform in PLATFORMS:
+        if platform["type"] == "blue" and platform["active"]:
+                platform["x"] += platform["vx"]
+
+    return
     # TODO : Parcourez les plateformes et gérez le déplacement des plateformes
     # bleues encore actives. Elles doivent rester dans la fenêtre en inversant
     # leur vitesse lorsqu'elles atteignent un bord.
+
+    
 
     return
 
@@ -98,6 +121,7 @@ def scroll_camera():
     Fait défiler le monde lorsque le Doodle dépasse CAMERA_SCROLL_THRESHOLD.
     Met à jour le score et maintient les plateformes visibles.
     """
+    
     # TODO : Lorsque le Doodle dépasse le seuil de caméra, il doit rester
     # visuellement au seuil pendant que les plateformes sont déplacées vers
     # le bas de la même distance.
