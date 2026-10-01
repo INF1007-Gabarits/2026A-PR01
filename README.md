@@ -33,7 +33,7 @@ Ce projet nécessite l'utilisation de la bibliothèque [`pygame`](https://www.py
 Avant de commencer, assurez-vous que l'environnement conda `INF1007` est activé dans VS Code :
 
 ```bash
-conda activate INF1007
+conda activate INF1007 
 ```
 
 Ensuite, installez Pygame :
@@ -82,7 +82,7 @@ Le projet est organisé de la manière suivante :
   - `SPRING_JUMP_VELOCITY` : vitesse verticale appliquée lors d'un rebond sur un ressort ;
   - `DOODLE_SPEED` : vitesse horizontale du Doodle ;
   - `MOVING_PLATFORM_SPEED` : vitesse horizontale des plateformes bleues ;
-  - `CAMERA_SCROLL_THRESHOLD` : hauteur à partir de laquelle la caméra commence à défiler ;
+  - `CAMERA_SCROLL_THRESHOLD` : hauteur à partir de laquelle la caméra commence à défiler ;#threshold=seuil 
   - `PLATFORMS` : liste globale contenant les dictionnaires des plateformes ;
   - `doodle_dict` : dictionnaire global contenant l'état du Doodle.
 
@@ -126,7 +126,7 @@ Vous devez compléter les sections identifiées par `TODO` dans les fichiers `do
 
 ## PARTIE 1 : Le Doodle 🦘
 
-### 1.1 : Position initiale du Doodle
+### 1.1 : Position initiale du Doodle 
 
 Dans le fichier `doodle.py`, le dictionnaire `doodle_dict` contient toutes les informations nécessaires pour représenter le personnage :
 
