@@ -117,25 +117,37 @@ def check_platform_collisions():
     # - brown : JUMP_VELOCITY puis désactivation de la plateforme ;
     # - green/blue : JUMP_VELOCITY.
 
-    for platform in PLATFORMS:
-        if platform["active"] and doodle_dict["vel_y"] > 0:
-            doodle_rect = (doodle_dict["x"], doodle_dict["y"], DOODLE_WIDTH, DOODLE_HEIGHT)
-            platform_rect = (platform["x"], platform["y"], PLATFORM_WIDTH, platform["height"])
+    if doodle_dict["vel_y"] > 0:
 
-            if rects_collide(doodle_rect, platform_rect):
-                previous_feet_y = doodle_dict["y"] - doodle_dict["vel_y"] + DOODLE_HEIGHT
-                current_feet_y = doodle_dict["y"] + DOODLE_HEIGHT
+        doodle_rect = (
+            doodle_dict["x"],
+            doodle_dict["y"],
+            DOODLE_WIDTH,
+            DOODLE_HEIGHT
+        )
 
-                if previous_feet_y <= platform["y"] + 14 and current_feet_y >= platform["y"]:
+        for platform in PLATFORMS:
+
+            platform_rect = (
+                platform["x"],
+                platform["y"],
+                platform["width"],
+                platform["height"]
+            )
+
+            if  platform["active"] and rects_collide(doodle_rect, platform_rect):
+                previous_bottom = (doodle_dict["y"] + DOODLE_HEIGHT) - doodle_dict["vel_y"]
+                if previous_bottom <= platform["y"] + 14:
                     if platform["type"] == "spring":
                         doodle_dict["vel_y"] = SPRING_JUMP_VELOCITY
                     elif platform["type"] == "brown":
                         doodle_dict["vel_y"] = JUMP_VELOCITY
                         platform["active"] = False
-                    else:  # green ou blue
+                    else:
                         doodle_dict["vel_y"] = JUMP_VELOCITY
 
-
+                    break
+                                                 
     return
 
 # ===========================================================
@@ -188,6 +200,18 @@ def generate_new_platforms():
     # Vous devrez partir de la plateforme actuellement la plus haute et
     # continuer à ajouter des plateformes tant que nécessaire. Utilisez
     # choose_platform_type(...) avec les probabilités indiquées dans le README.
+
+    if not PLATFORMS:
+        current_y = DOODLE_START_Y + 70 - random.randint(MIN_PLATFORM_GAP, MAX_PLATFORM_GAP)
+    else:
+        current_y = min(platform["y"] for platform in PLATFORMS) - random.randint(MIN_PLATFORM_GAP, MAX_PLATFORM_GAP)
+    while current_y > 0:
+        x = random.randint(0, SCREEN_WIDTH - PLATFORM_WIDTH)
+        platform_type = choose_platform_type(0.65, 0.17, 0.10)
+        new_platform = create_platform(x, current_y, platform_type)
+        PLATFORMS.append(new_platform)
+        current_y -= random.randint(MIN_PLATFORM_GAP, MAX_PLATFORM_GAP)
+    
 
     return
 
