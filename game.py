@@ -54,7 +54,7 @@ def move_doodle():
     if doodle_dict['x'] <= -DOODLE_WIDTH:
         doodle_dict['x'] = SCREEN_WIDTH
     elif doodle_dict['x'] >= SCREEN_WIDTH:
-            doodle_dict['x'] = -DOODLE_WIDTH
+        doodle_dict['x'] = -DOODLE_WIDTH
 
     return
 
@@ -178,8 +178,11 @@ def generate_new_platforms():
     # Vous devrez partir de la plateforme actuellement la plus haute et
     # continuer à ajouter des plateformes tant que nécessaire. Utilisez
     # choose_platform_type(...) avec les probabilités indiquées dans le README.
-    p_y = [p["y"] for p in PLATFORMS]
-    highest_y = min(p_y) #La liste ne peut pas etre vide
+    if PLATFORMS: #vérifie que la liste n'est pas vide
+        p_y = [p["y"] for p in PLATFORMS]
+        highest_y = min(p_y) 
+    else:
+        highest_y = SCREEN_HEIGHT
 
     while highest_y >= 0:
         x = random.randint(0, SCREEN_WIDTH - PLATFORM_WIDTH)
