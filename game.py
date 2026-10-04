@@ -1,5 +1,7 @@
 # ======================== game.py ========================
 
+from sys import platform
+
 import pygame
 import random
 from config import (
@@ -21,6 +23,9 @@ def apply_gravity():
     """
     # TODO : Mettez à jour la vitesse verticale puis la position verticale
     # du Doodle à partir de GRAVITY.
+
+    doodle_dict["vel_y"] += GRAVITY
+    doodle_dict["y"] += doodle_dict["vel_y"]
 
     return
 
@@ -103,7 +108,38 @@ def check_platform_collisions():
     # - spring : SPRING_JUMP_VELOCITY ;
     # - brown : JUMP_VELOCITY puis désactivation de la plateforme ;
     # - green/blue : JUMP_VELOCITY.
+    
+    if doodle_dict["vel_y"] > 0:
 
+        doodle_rect = (
+            doodle_dict["x"],
+            doodle_dict["y"],
+            DOODLE_WIDTH,
+            DOODLE_HEIGHT
+        )
+
+        for platform in PLATFORMS:
+
+            platform_rect = (
+                platform["x"],
+                platform["y"],
+                platform["width"],
+                platform["height"]
+            )
+
+            if  platform["active"] and rects_collide(doodle_rect, platform_rect):
+                previous_bottom = (doodle_dict["y"] + DOODLE_HEIGHT) - doodle_dict["vel_y"]
+                if previous_bottom <= platform["y"] + 14:
+                    if platform["type"] == "spring":
+                        doodle_dict["vel_y"] = SPRING_JUMP_VELOCITY
+                    elif platform["type"] == "brown":
+                        doodle_dict["vel_y"] = JUMP_VELOCITY
+                        platform["active"] = False
+                    else:
+                        doodle_dict["vel_y"] = JUMP_VELOCITY
+
+                    break
+                                                 
     return
 
 # ===========================================================
