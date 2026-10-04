@@ -28,7 +28,7 @@ platform_images = {
 
 
 # ======================== PARTIE 2.1 ========================
-def create_platform(x, y, platform_type="green"):
+def create_platform(x, y, platform_type):
     """
     Crée et retourne un dictionnaire représentant une plateforme.
 
@@ -36,16 +36,23 @@ def create_platform(x, y, platform_type="green"):
     plateforme verte. Votre travail consiste à le généraliser afin qu'il
     représente aussi correctement les plateformes bleues, marron et à ressort.
     """
+    vx = 0.0
+    height = PLATFORM_SIZE[1]
+
+    if platform_type == "blue":
+        vx = MOVING_PLATFORM_SPEED
+    elif platform_type == "spring":
+        height = PLATFORM_SIZE[1] + 10
 
     platform = {
         "x": float(x),
         "y": float(y),
-        "type": "green",                    # TODO
-        "image": platform_images["green"],  # TODO
-        "vx": 0.0,                          # TODO
+        "type": platform_type,
+        "image": platform_images[platform_type],
+        "vx": vx,
         "active": True,
         "width": PLATFORM_SIZE[0],
-        "height": PLATFORM_SIZE[1]           # TODO
+        "height": height
     }
 
     # TODO : Modifiez le dictionnaire ci-dessus pour qu'il dépende réellement
@@ -79,7 +86,18 @@ def choose_platform_type(green_probability, blue_probability, spring_probability
     # Attention : les seuils utilisés avec random.random() doivent être
     # cumulatifs.
 
-    return "green"  # Valeur temporaire à remplacer
+    r = random.random()
+
+    if r < green_probability:
+        return "green"
+    elif r < green_probability + blue_probability:
+        return "blue"
+    elif r < green_probability + blue_probability + spring_probability:
+        return "spring"
+    else:
+        return "brown"
+
+     # Valeur temporaire à remplacer
 
 # ===========================================================
 
