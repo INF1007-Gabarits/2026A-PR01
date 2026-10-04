@@ -45,6 +45,22 @@ def generate_initial_platforms():
     # horizontale valide, choisir un type avec choose_platform_type(...),
     # ajouter la plateforme à PLATFORMS et calculer la hauteur de la suivante.
     # Les probabilités à utiliser sont données dans le README.
+    # 
+    # while current_y:
+    # lastPlatform = PLATFORMS[len(PLATFORMS) - 1]['y']
+   
+    while current_y > 0:
+        lastPlatform = PLATFORMS[len(PLATFORMS) - 1]['y']
+        platform = create_platform(
+                random.randint(0 , SCREEN_WIDTH - PLATFORM_WIDTH), 
+                lastPlatform - random.randint(MIN_PLATFORM_GAP, MAX_PLATFORM_GAP),
+                choose_platform_type(0.65, 0.17, 0.1)
+            )
+
+        PLATFORMS.append(platform)
+        current_y = PLATFORMS[len(PLATFORMS) - 1]['y']
+        
+
 
     return
     # ===========================================================

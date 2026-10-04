@@ -28,7 +28,7 @@ platform_images = {
 
 
 # ======================== PARTIE 2.1 ========================
-def create_platform(x, y, platform_type="green"):
+def create_platform(x, y, platform_type):
     """
     Crée et retourne un dictionnaire représentant une plateforme.
 
@@ -40,12 +40,12 @@ def create_platform(x, y, platform_type="green"):
     platform = {
         "x": float(x),
         "y": float(y),
-        "type": "green",                    # TODO
-        "image": platform_images["green"],  # TODO
-        "vx": 0.0,                          # TODO
+        "type": platform_type,                    # TODO
+        "image": platform_images[platform_type],  # TODO
+        "vx": MOVING_PLATFORM_SPEED if platform_type == "blue" else 0.0,                          # TODO
         "active": True,
         "width": PLATFORM_SIZE[0],
-        "height": PLATFORM_SIZE[1]           # TODO
+        "height" : PLATFORM_SIZE[1] + 10 if platform_type == "spring" else PLATFORM_SIZE[1] # TODO
     }
 
     # TODO : Modifiez le dictionnaire ci-dessus pour qu'il dépende réellement
@@ -56,6 +56,7 @@ def create_platform(x, y, platform_type="green"):
     # - une plateforme bleue se déplace à MOVING_PLATFORM_SPEED ;
     # - une plateforme à ressort est 10 pixels plus haute ;
     # - les autres plateformes sont immobiles et gardent la hauteur normale.
+
 
     return platform
 
@@ -79,7 +80,19 @@ def choose_platform_type(green_probability, blue_probability, spring_probability
     # Attention : les seuils utilisés avec random.random() doivent être
     # cumulatifs.
 
-    return "green"  # Valeur temporaire à remplacer
+    type = ""
+    
+    
+    if random.random() < green_probability:
+        type = "green"
+    elif random.random() < green_probability + blue_probability:
+        type = "blue"
+    elif random.random() < green_probability + blue_probability + spring_probability:
+        type = "spring"
+    else:
+        type = "brown"
+
+    return type  # Valeur temporaire à remplacer
 
 # ===========================================================
 
