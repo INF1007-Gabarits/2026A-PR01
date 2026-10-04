@@ -37,15 +37,18 @@ def create_platform(x, y, platform_type="green"):
     représente aussi correctement les plateformes bleues, marron et à ressort.
     """
 
+    vx = MOVING_PLATFORM_SPEED if platform_type == "blue" else 0.0
+    height = PLATFORM_SIZE[1] + 10 if platform_type == "spring" else PLATFORM_SIZE[1]
+
     platform = {
         "x": float(x),
         "y": float(y),
-        "type": "green",                    # TODO
-        "image": platform_images["green"],  # TODO
-        "vx": 0.0,                          # TODO
+        "type": platform_type,
+        "image": platform_images[platform_type],
+        "vx": vx,
         "active": True,
         "width": PLATFORM_SIZE[0],
-        "height": PLATFORM_SIZE[1]           # TODO
+        "height": height
     }
 
     # TODO : Modifiez le dictionnaire ci-dessus pour qu'il dépende réellement
@@ -71,6 +74,17 @@ def choose_platform_type(green_probability, blue_probability, spring_probability
     verte, bleue et à ressort. La probabilité restante correspond à une
     plateforme marron.
     """
+
+    r = random.random()
+
+    if r < green_probability:
+        return "green"
+    elif r < green_probability + blue_probability:
+        return "blue"
+    elif r < green_probability + blue_probability + spring_probability:
+        return "spring"
+    else:
+        return "brown"
 
     # TODO : Utilisez random.random() et les probabilités reçues en paramètres
     # pour retourner l'une des chaînes suivantes :
