@@ -66,7 +66,7 @@ def move_doodle():
 
     # Droite
     if doodle_dict["x"] > SCREEN_WIDTH:
-        doodle_dict["x"] = 0
+        doodle_dict["x"] = -DOODLE_WIDTH
 
     return
 
@@ -88,8 +88,13 @@ def move_platforms():
             platform["x"] += platform["vx"]
 
             # Vérification des bords gauche et droit
-            if platform["x"] <= 0 or (platform["x"] + PLATFORM_WIDTH) >= SCREEN_WIDTH:
-                platform["vx"] *= -1  # Inverser la vitesse pour rebondir
+            if platform["x"] <= 0:
+                platform["x"] = 0
+                platform["vx"] *= -1
+
+            elif platform["x"] + platform["width"] >= SCREEN_WIDTH:
+                platform["x"] = SCREEN_WIDTH - platform["width"]
+                platform["vx"] *= -1
 
     return
 
@@ -207,7 +212,7 @@ def generate_new_platforms():
         current_y = min(platform["y"] for platform in PLATFORMS) - random.randint(MIN_PLATFORM_GAP, MAX_PLATFORM_GAP)
     while current_y > 0:
         x = random.randint(0, SCREEN_WIDTH - PLATFORM_WIDTH)
-        platform_type = choose_platform_type(0.65, 0.17, 0.10)
+        platform_type = choose_platform_type(0.55, 0.20, 0.13)
         new_platform = create_platform(x, current_y, platform_type)
         PLATFORMS.append(new_platform)
         current_y -= random.randint(MIN_PLATFORM_GAP, MAX_PLATFORM_GAP)
