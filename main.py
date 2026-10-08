@@ -49,3 +49,4 @@ while running:
 # Fermeture propre de Pygame
 pygame.quit()
 sys.exit()
+
