@@ -37,15 +37,17 @@ def generate_initial_platforms():
 
     current_y = DOODLE_START_Y + 70 - random.randint(MIN_PLATFORM_GAP, MAX_PLATFORM_GAP)
 
-    # ======================== PARTIE 2.2 — CORRIGÉ ========================
-    while current_y > 30:
-        x = random.randint(0, SCREEN_WIDTH - PLATFORM_WIDTH)
-        platform_type = choose_platform_type(0.65, 0.17, 0.10)
+    # ======================== PARTIE 2.2 ========================
+    # TODO : Ajoutez des plateformes jusqu'à ce que la partie supérieure
+    # de l'écran soit remplie.
+    #
+    # À chaque itération, vous devrez notamment déterminer une position
+    # horizontale valide, choisir un type avec choose_platform_type(...),
+    # ajouter la plateforme à PLATFORMS et calculer la hauteur de la suivante.
+    # Les probabilités à utiliser sont données dans le README.
 
-        PLATFORMS.append(create_platform(x, current_y, platform_type))
-
-        current_y -= random.randint(MIN_PLATFORM_GAP, MAX_PLATFORM_GAP)
-    # =====================================================================
+    return
+    # ===========================================================
 
 
 def draw_window():
@@ -93,3 +95,4 @@ def show_game_over_message():
     GAME_WINDOW.blit(hint_text, hint_text.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 95)))
 
     pygame.display.update()
+
