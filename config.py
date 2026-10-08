@@ -45,6 +45,5 @@ FPS = 60
 # Liste globale des plateformes
 PLATFORMS = []
 
-
 # Dictionnaire global du Doodle
 doodle_dict = {}  # Sera rempli dans doodle.py
