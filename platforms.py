@@ -18,7 +18,6 @@ platform_brown_img = pygame.transform.scale(platform_brown_img, PLATFORM_SIZE)
 platform_spring_img = pygame.image.load(os.path.join(ASSETS_DIR, "platform_spring.png"))
 platform_spring_img = pygame.transform.scale(platform_spring_img, (PLATFORM_SIZE[0], PLATFORM_SIZE[1] + 10))
 
-# Dictionnaire d'accès aux images selon le type de plateforme
 platform_images = {
     "green": platform_green_img,
     "blue": platform_blue_img,
@@ -27,42 +26,27 @@ platform_images = {
 }
 
 
-# ======================== PARTIE 2.1 ========================
+# ======================== PARTIE 2.1 — CORRIGÉ ========================
 def create_platform(x, y, platform_type="green"):
     """
     Crée et retourne un dictionnaire représentant une plateforme.
-
-    Le dictionnaire ci-dessous représente pour l'instant correctement une
-    plateforme verte. Votre travail consiste à le généraliser afin qu'il
-    représente aussi correctement les plateformes bleues, marron et à ressort.
     """
-
     platform = {
         "x": float(x),
         "y": float(y),
-        "type": "green",                    # TODO
-        "image": platform_images["green"],  # TODO
-        "vx": 0.0,                          # TODO
+        "type": platform_type,
+        "image": platform_images[platform_type],
+        "vx": MOVING_PLATFORM_SPEED if platform_type == "blue" else 0.0,
         "active": True,
         "width": PLATFORM_SIZE[0],
-        "height": PLATFORM_SIZE[1]           # TODO
+        "height": PLATFORM_SIZE[1] + 10 if platform_type == "spring" else PLATFORM_SIZE[1]
     }
 
-    # TODO : Modifiez le dictionnaire ci-dessus pour qu'il dépende réellement
-    # de l'argument platform_type.
-    #
-    # Contraintes :
-    # - l'image doit être obtenue à partir de platform_images ;
-    # - une plateforme bleue se déplace à MOVING_PLATFORM_SPEED ;
-    # - une plateforme à ressort est 10 pixels plus haute ;
-    # - les autres plateformes sont immobiles et gardent la hauteur normale.
-
     return platform
+# =====================================================================
 
-# ===========================================================
 
-
-# ======================== PARTIE 2.2 ========================
+# ======================== PARTIE 2.2 — CORRIGÉ ========================
 def choose_platform_type(green_probability, blue_probability, spring_probability):
     """
     Choisit aléatoirement un type de plateforme.
@@ -71,15 +55,18 @@ def choose_platform_type(green_probability, blue_probability, spring_probability
     verte, bleue et à ressort. La probabilité restante correspond à une
     plateforme marron.
     """
+    r = random.random()
 
-    # TODO : Utilisez random.random() et les probabilités reçues en paramètres
-    # pour retourner l'une des chaînes suivantes :
-    # "green", "blue", "spring" ou "brown".
-    #
-    # Attention : les seuils utilisés avec random.random() doivent être
-    # cumulatifs.
+    green_threshold = green_probability
+    blue_threshold = green_threshold + blue_probability
+    spring_threshold = blue_threshold + spring_probability
 
-    return "green"  # Valeur temporaire à remplacer
-
-# ===========================================================
+    if r < green_threshold:
+        return "green"
+    if r < blue_threshold:
+        return "blue"
+    if r < spring_threshold:
+        return "spring"
+    return "brown"
+# =====================================================================
 
